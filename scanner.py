@@ -1,20 +1,13 @@
-import requests
 import pandas as pd
+import requests
 
-
-def get_klines(symbol, interval="15m", limit=150):
-
+def get_klines(symbol, interval="1h", limit=200):
     url = f"https://api.binance.com/api/v3/klines?symbol={symbol}&interval={interval}&limit={limit}"
-
     data = requests.get(url).json()
-
-    df = pd.DataFrame(data)
-
-    df = df[[0,1,2,3,4,5]]
-
-    df.columns = ["time","open","high","low","close","volume"]
-
-    df["close"] = df["close"].astype(float)
-    df["volume"] = df["volume"].astype(float)
-
+    df = pd.DataFrame(data, columns=[
+        "open_time", "open", "high", "low", "close", "volume",
+        "close_time", "quote_asset_volume", "trades",
+        "taker_buy_base", "taker_buy_quote", "ignore"
+    ])
+    df = df[["open","high","low","close","volume"]].astype(float)
     return df
