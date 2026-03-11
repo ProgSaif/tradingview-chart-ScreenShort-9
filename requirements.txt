@@ -1,3 +1,6 @@
 playwright
+pandas
+numpy
+requests
+pillow
 python-telegram-bot
-asyncio
